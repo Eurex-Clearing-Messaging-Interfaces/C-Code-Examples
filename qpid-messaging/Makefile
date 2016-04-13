@@ -38,5 +38,5 @@ request_response: $(rOBJ)
 .PHONY: clean
 
 clean:
-	rm -f *.o *~ broadcast_receiver request_response 10_broadcast_receiver 10_response_receiver
+	rm -f *.o *~ broadcast_receiver request_response 10_broadcast_receiver 10_request_response
 
