@@ -21,68 +21,65 @@ int main(int argc, char *argv[])
     unsigned int timeout(DEFAULT_TIMEOUT);
     bool amqp10 = false;
 
-    char c;
-    extern char *optarg;
-    extern int optind, optopt;
-    bool errFlag = false;
-    while ((c = getopt (argc, argv, ":a:h:p:t:1")) != -1)
+    try
     {
-        switch (c)
+        char c;
+        extern char *optarg;
+        extern int optind, optopt;
+        while ((c = getopt (argc, argv, ":a:h:p:t:1")) != -1)
         {
-            case 'a':
-                account = optarg;
-                break;
-            case 'h':
-                host = optarg;
-                break;
-            case 'p':
-                port = (unsigned int)atoi(optarg);
-                break;
-            case 't':
-                timeout = (unsigned int)atoi(optarg);
-                break;
-            case '1':
-                amqp10 = true;
-                break;
-            case ':':
-                std::cerr << "-E- Option -" << char(optopt) << " requires an argument." << std::endl;
-                errFlag = true;
-                break;
-            case '?':
-                std::cerr << "-E- Unknown option -" << char(optopt) << "." << std::endl;
-                errFlag = true;
-                break;
-            default:
-                return 1;
+            switch (c)
+            {
+                case 'a':
+                    account = optarg;
+                    break;
+                case 'h':
+                    host = optarg;
+                    break;
+                case 'p':
+                    port = (unsigned int)atoi(optarg);
+                    break;
+                case 't':
+                    timeout = (unsigned int)atoi(optarg);
+                    break;
+                case '1':
+                    amqp10 = true;
+                    break;
+                case ':':
+                    throw std::runtime_error("-E- Option -" + std::string(1,char(optopt)) + " requires an argument.");
+                case '?':
+                    throw std::runtime_error("-E- Unknown option -" + std::string(1,char(optopt)) + ".");
+                default:
+                    throw std::runtime_error("-E- Unknown error in getopt().");
+            }
         }
-    }
 
-    if (optind >= argc)
-    {
-        std::cerr << "-E- Missing mode parameter." << std::endl;
-        errFlag = true;
-    }
-    else
-    {
-        std::string mode(argv[optind]);
-
-        if (mode == BROADCAST_RECEIVER)
+        if (optind >= argc)
         {
-            BroadcastReceiver(Options(account,host,port,timeout),amqp10).run();
-        }
-        else if (mode == REQUEST_RESPONSE)
-        {
-            RequestResponse(Options(account,host,port,timeout),amqp10).run();
+            throw std::runtime_error("-E- Missing mode parameter.");
         }
         else
         {
-            std::cerr << "-E- Unknown mode \'" + mode + "\'." << std::endl;
-            errFlag = true;
+            std::string mode(argv[optind]);
+
+            if (mode == BROADCAST_RECEIVER)
+            {
+                BroadcastReceiver(Options(account,host,port,timeout),amqp10).run();
+            }
+            else if (mode == REQUEST_RESPONSE)
+            {
+                RequestResponse(Options(account,host,port,timeout),amqp10).run();
+            }
+            else
+            {
+                throw std::runtime_error("-E- Unknown mode \'" + mode + "\'.");
+            }
         }
     }
-
-    if (errFlag)
+    catch (const std::exception &error)
     {
+        std::cerr << error.what();
+        std::cerr << std::endl;
         std::cerr << "Usage:" << std::endl;
         std::cerr << "  " << argv[0] << " [options] <mode>" << std::endl;
         std::cerr << "  Options:" << std::endl;
@@ -94,6 +91,7 @@ int main(int argc, char *argv[])
         std::cerr << "  Modes:" << std::endl;
         std::cerr << "    " << BROADCAST_RECEIVER << " - Receive broadcasts." << std::endl;
         std::cerr << "    " << REQUEST_RESPONSE << "   - Send request and receive response." << std::endl;
+
         return 1;
     }
 

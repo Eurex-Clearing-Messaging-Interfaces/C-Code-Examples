@@ -17,7 +17,14 @@ const static std::string requestQueue("request_be.ABCFR_ABCFRALMMACC1");
 
 static void responderThread(Responder *pResponder)
 {
-    pResponder->run();
+    try
+    {
+        pResponder->run();
+    }
+    catch (const std::exception &error)
+    {
+        BOOST_TEST_MESSAGE(std::string("Responder has failed with message: ") + error.what());
+    }
 }
 
 BOOST_AUTO_TEST_CASE(test_RequestResponse)
@@ -28,8 +35,6 @@ BOOST_AUTO_TEST_CASE(test_RequestResponse)
     RequestResponse rr(clientOptions,false);
 
     std::thread responder(responderThread,&r);
-
-    r.waitTillReady();
 
     rr.run();
 
@@ -46,8 +51,6 @@ BOOST_AUTO_TEST_CASE(test_RequestResponse_AMQP_10)
     RequestResponse rr(clientOptions,true);
 
     std::thread responder(responderThread,&r);
-
-    r.waitTillReady();
 
     rr.run();
 

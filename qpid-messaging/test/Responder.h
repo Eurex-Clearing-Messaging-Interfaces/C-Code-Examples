@@ -2,7 +2,6 @@
 #define __RESPONDER_H__
 
 #include <string>
-#include <mutex>
 
 #include "ServerOptions.h"
 
@@ -15,7 +14,6 @@ class Responder
         const bool _useAmqp10;
         const unsigned int _capacity;
         const std::string _requestQueue;
-        std::mutex _mutex;
 
     public:
 
@@ -26,9 +24,6 @@ class Responder
 
         // Run method
         void run();
-
-        // Wait till responder is ready and listening.
-        void waitTillReady();
 
 };
 

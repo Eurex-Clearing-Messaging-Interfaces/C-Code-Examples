@@ -21,7 +21,6 @@ Responder::Responder(const ServerOptions &options,
     , _capacity(1000)
     , _requestQueue(requestQueue)
 {
-    _mutex.lock();
 }
 
 void Responder::run()
@@ -51,8 +50,6 @@ void Responder::run()
         receiver.setCapacity(_capacity);
 
         std::cout << "-I- Responder: Receiver created " << receiver.getName() << std::endl;
-
-        _mutex.unlock();
 
         try
         {
@@ -90,11 +87,5 @@ void Responder::run()
         std::cerr << "-E- Responder: Caught exception: " << error.what() << std::endl;
         throw error;
     }
-}
-
-void Responder::waitTillReady()
-{
-    _mutex.lock();
-    _mutex.unlock();
 }
 
