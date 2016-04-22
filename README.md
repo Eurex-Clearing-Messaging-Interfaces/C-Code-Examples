@@ -1,3 +1,14 @@
+# building
+
+In top directory execute following commands
+```
+mkdir build
+cd build
+cmake ..
+make
+ctest
+```
+
 # qpid-messaging
 
 Examples in qpid.messaging folder are using the Qpid Messaging C++ API. It supports both AMQP 1.0 and 0-10. To run the examples:
