@@ -1,5 +1,5 @@
 cmake_minimum_required (VERSION 3.1.0)
-project (C++CodeExamples)
+project (C++CodeExamples_qpid-messaging)
 add_subdirectory (src)
 add_subdirectory (test)
 enable_testing ()

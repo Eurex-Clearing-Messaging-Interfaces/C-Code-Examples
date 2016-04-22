@@ -10,7 +10,7 @@ add_definitions (-DBOOST_TEST_DYN_LINK)
 add_executable (test_Broadcaster test_Broadcaster.cpp Broadcaster.cpp)
 add_executable (test_Responder test_Responder.cpp Responder.cpp)
 target_link_libraries (test_Broadcaster
-                       C++CodeExamples
+                       ${PROJECT_NAME}
                        ${Boost_FILESYSTEM_LIBRARY}
                        ${Boost_SYSTEM_LIBRARY}
                        ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY}
@@ -18,7 +18,7 @@ target_link_libraries (test_Broadcaster
                        Threads::Threads
                        )
 target_link_libraries (test_Responder
-                       C++CodeExamples
+                       ${PROJECT_NAME}
                        ${Boost_FILESYSTEM_LIBRARY}
                        ${Boost_SYSTEM_LIBRARY}
                        ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY}

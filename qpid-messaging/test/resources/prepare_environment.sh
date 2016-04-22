@@ -3,9 +3,7 @@
 myPath="$(dirname  $(readlink -f ${BASH_SOURCE[0]}))"
 dbPath=${myPath}
 pwdFile="${myPath}/amq_cert_db.pwd"
-hostName="eclbgc01"
 hostName="ecag-fixml-dev1"
-account="CBKFR_TESTCALMMACC1"
 account="ABCFR_ABCFRALMMACC1"
 nodeCert="${myPath}/${hostName}.crt"
 accountPem="${myPath}/${account}.pem"
