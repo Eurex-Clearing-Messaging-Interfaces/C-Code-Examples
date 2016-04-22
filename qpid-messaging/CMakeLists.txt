@@ -1,0 +1,7 @@
+cmake_minimum_required (VERSION 3.1.0)
+project (C++CodeExamples_qpid-messaging)
+add_subdirectory (src)
+add_subdirectory (test)
+enable_testing ()
+add_test (NAME Broadcaster_test COMMAND test_Broadcaster --log_level=test_suite)
+add_test (NAME Responder_test COMMAND test_Responder --log_level=test_suite)
