@@ -25,4 +25,4 @@ script:
   - mkdir build && cd build && cmake .. && make && ctest
 
 after_failure:
-  - cat build/Testing/Temporary/LastTest.log
+  - cat Testing/Temporary/LastTest.log
