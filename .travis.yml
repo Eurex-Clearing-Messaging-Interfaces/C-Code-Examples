@@ -1,0 +1,26 @@
+language: cpp
+
+sudo: required
+
+services:
+  - docker
+
+addons:
+  hosts:
+    - ecag-fixml-dev1
+
+before_install:
+  - sudo add-apt-repository ppa:qpid/testing  --yes
+  - sudo apt-get update -q
+  - sudo apt-get install -q -y libboost-test-dev libboost-filesystem-dev libnss3-tools libqpidmessaging2-dev libqpidclient2-dev
+  - docker pull ecmi/fixml:sim
+
+install:
+  - docker run -d -p 35672:5672 -p 35671:5671 ecmi/fixml:sim
+
+before_script:
+  - ./qpid-messaging/test/resources/prepare_environment.sh
+
+script:
+  - mkdir build && cd build && cmake .. && make && ctest
+
