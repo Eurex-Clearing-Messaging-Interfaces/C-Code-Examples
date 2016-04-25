@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 myPath="$(dirname  $(readlink -f ${BASH_SOURCE[0]}))"
 dbPath=${myPath}
