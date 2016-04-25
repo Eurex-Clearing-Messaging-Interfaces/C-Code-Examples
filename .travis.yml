@@ -13,7 +13,7 @@ before_install:
   - sudo add-apt-repository ppa:george-edison55/cmake-3.x --yes
   - sudo add-apt-repository ppa:qpid/testing  --yes
   - sudo apt-get update -q
-  - sudo apt-get upgrade -q --yes
+  - sudo apt-get install -q -y --only-upgrade cmake
   - sudo apt-get install -q -y libnss3-tools libqpidmessaging2-dev libqpidclient2-dev
   - docker pull ecmi/fixml:sim
 
