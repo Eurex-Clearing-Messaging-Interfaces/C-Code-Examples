@@ -1,7 +1,4 @@
 add_definitions(-std=c++11)
-#find_package (Qpid REQUIRED)
-#include_directories(${Qpid_INCLUDE_DIRS})
 add_library (${PROJECT_NAME} BroadcastReceiver.cpp RequestResponse.cpp)
 add_executable (demo main.cpp)
-target_link_libraries (demo qpidtypes qpidmessaging qpidclient ${PROJECT_NAME})
-#target_link_libraries (demo ${Qpid_LIBRARIES} qpidclient ${PROJECT_NAME})
+target_link_libraries (demo qpidclient qpidtypes qpidmessaging ${PROJECT_NAME})
