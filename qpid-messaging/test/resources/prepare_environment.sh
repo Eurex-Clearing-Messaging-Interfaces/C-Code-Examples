@@ -1,7 +1,7 @@
 #!/bin/sh
 
 myPath="$(dirname  $(readlink -f ${BASH_SOURCE[0]}))"
-dbPath=$(pwd)
+dbPath=${myPath}
 pwdFile="${myPath}/amq_cert_db.pwd"
 hostName="ecag-fixml-dev1"
 account="ABCFR_ABCFRALMMACC1"
