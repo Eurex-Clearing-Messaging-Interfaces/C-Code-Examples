@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/Eurex-Clearing-Messaging-Interfaces/C-Code-Examples.svg?branch=master)](https://travis-ci.org/Eurex-Clearing-Messaging-Interfaces/C-Code-Examples)
+
 # building
 
 In top directory execute following commands
