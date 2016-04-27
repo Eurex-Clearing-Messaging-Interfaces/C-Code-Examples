@@ -98,7 +98,7 @@ set QPID_SSL_CERT_NAME=abcfr_abcfralmmacc1
 
 ## Running the examples
 
-The projects consist of one executable files named `demo`. This executable can be run in two modes - as broadcast receiver or as request sender / response receiver. The `demo` program accepts following options:
+The projects consist of one executable files named `demo`, which is created in `<build directory>/qpid-messaging/src`. This executable can be run in two modes - as broadcast receiver or as request sender / response receiver. The `demo` program accepts following options:
 ```
 ./demo [options] <mode>
   Options:" << std::endl;
@@ -111,7 +111,6 @@ The projects consist of one executable files named `demo`. This executable can b
     broadcast_receiver - Receive broadcasts.
     request_response   - Send request and receive response.
 ```
-
 
 To run the executable:
 
