@@ -19,14 +19,6 @@ Examples in qpid-messaging folder are using the Qpid Messaging C++ API. It suppo
 - Change the hostname / IP address, port number, paths to the certificates and queue names
 - Run the examples
 
-## BroadcastReceiver.cpp
-
-This example connects to the AMQP broker using AMQP version 0-10 or 1.0, opens a consumer to the broadcast queue and starts consuming the broadcasts.
-
-## RequestResponse.cpp
-
-This example connects to the AMQP broker using AMQP version 0-10 or 1.0, sends a request message and wait for a response, which should be sent by the Eurex system.
-
 ## SSL (Linux)
 
 The C++ libraries are using the NSS tools to handle SSL. The NSS database has to be prepared before running the client and configured using environment variables.
@@ -103,6 +95,14 @@ set QPID_SSL_CERT_FILENAME=ABCFR_ABCFRALMMACC1.p12
 set QPID_SSL_CERT_PASSWORD_FILE=ABCFR_ABCFRALMMACC1.pwd
 set QPID_SSL_CERT_NAME=abcfr_abcfralmmacc1
 ```
+
+## BroadcastReceiver.cpp
+
+This example connects to the AMQP broker using AMQP version 0-10 or 1.0, opens a consumer to the broadcast queue and starts consuming the broadcasts.
+
+## RequestResponse.cpp
+
+This example connects to the AMQP broker using AMQP version 0-10 or 1.0, sends a request message and wait for a response, which should be sent by the Eurex system.
 
 # Documentation
 
