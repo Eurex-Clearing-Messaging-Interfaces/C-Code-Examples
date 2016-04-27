@@ -96,13 +96,39 @@ set QPID_SSL_CERT_PASSWORD_FILE=ABCFR_ABCFRALMMACC1.pwd
 set QPID_SSL_CERT_NAME=abcfr_abcfralmmacc1
 ```
 
-## BroadcastReceiver.cpp
+## Running the examples
 
-This example connects to the AMQP broker using AMQP version 0-10 or 1.0, opens a consumer to the broadcast queue and starts consuming the broadcasts.
+The projects consist of one executable files named `demo`. This executable can be run in two modes - as broadcast receiver or as request sender / response receiver. The `demo` program accepts following options:
+```
+./demo [options] <mode>
+  Options:" << std::endl;
+    -a <account>   Account (default=ABCFR_ABCFRALMMACC1)
+    -h <hostname>  Hostname (default=ecaf-fixml-simu1.deutsche-boerse.com)
+    -p <port>      Port (default=10170)
+    -t <timeout>   Timeout (default=10)
+    -1             Enable AMQP 1.0 protocol
+  Modes:
+    broadcast_receiver - Receive broadcasts.
+    request_response   - Send request and receive response.
+```
 
-## RequestResponse.cpp
 
-This example connects to the AMQP broker using AMQP version 0-10 or 1.0, sends a request message and wait for a response, which should be sent by the Eurex system.
+To run the executable:
+
+1. Configure SSL
+2. Run `./demo -a ABCFR_ABCFRALMMACC1 -h ecag-fixml-dev1 -p 5671 request_response` to send request / receive response
+3. Run `./demo -a ABCFR_ABCFRALMMACC1 -h ecag-fixml-dev1 -p 5671 broadcast_receiver` to receive broadcasts
+4. Use the option -1 to use AMQP 1.0
+
+## Source code
+
+### Broadcast Receiver
+
+The code responsible for receiving broadcasts is in the files `BroadcastReceiver.h` and `BroadcastReceiver.cpp`. This code handles both AMQP 0-10 and 1.0.
+
+### Request / Response
+
+The code responsible for sending requests / receiving responses is in the files `RequestResponse.h` and `RequestResponse.cpp`. This code handles both AMQP 0-10 and 1.0.
 
 # Documentation
 
