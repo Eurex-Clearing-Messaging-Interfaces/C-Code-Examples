@@ -5,9 +5,9 @@ include_directories (${PROJECT_SOURCE_DIR}/src
                      ${Boost_INCLUDE_DIRS}
                      )
 add_definitions (-DBOOST_TEST_DYN_LINK)
-add_executable (test_Broadcaster test_Broadcaster.cpp Broadcaster.cpp)
-add_executable (test_Responder test_Responder.cpp Responder.cpp)
-target_link_libraries (test_Broadcaster
+add_executable (test_Broadcaster_qpid-messaging test_Broadcaster.cpp Broadcaster.cpp)
+add_executable (test_Responder_qpid-messaging test_Responder.cpp Responder.cpp)
+target_link_libraries (test_Broadcaster_qpid-messaging
                        ${PROJECT_NAME}
                        ${Boost_FILESYSTEM_LIBRARY}
                        ${Boost_SYSTEM_LIBRARY}
@@ -17,7 +17,7 @@ target_link_libraries (test_Broadcaster
                        qpidtypes
                        Threads::Threads
                        )
-target_link_libraries (test_Responder
+target_link_libraries (test_Responder_qpid-messaging
                        ${PROJECT_NAME}
                        ${Boost_FILESYSTEM_LIBRARY}
                        ${Boost_SYSTEM_LIBRARY}
