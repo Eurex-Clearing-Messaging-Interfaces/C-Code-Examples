@@ -1,0 +1,6 @@
+project (C++CodeExamples_qpid-proton)
+add_subdirectory (src)
+add_subdirectory (test)
+enable_testing ()
+add_test (NAME Broadcaster_test COMMAND test_Broadcaster_qpid-proton --log_level=test_suite --cert-dir ${CMAKE_CURRENT_LIST_DIR}/test/resources)
+add_test (NAME Responder_test COMMAND test_Responder_qpid-proton --log_level=test_suite --cert-dir ${CMAKE_CURRENT_LIST_DIR}/test/resources)
