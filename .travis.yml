@@ -19,8 +19,10 @@ install:
   - docker run -d -p 35672:5672 -p 35671:5671 ecmi/fixml:sim
 
 before_script:
-  - ./qpid-messaging/test/resources/prepare_environment.sh
+  - source ./qpid-messaging/test/resources/prepare_environment.sh
 
 script:
   - mkdir build && cd build && cmake .. && make && ctest
 
+after_failure:
+  - cat Testing/Temporary/LastTest.log
