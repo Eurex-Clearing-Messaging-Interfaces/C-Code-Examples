@@ -26,7 +26,8 @@ before_script:
   - mkdir -p qpid-proton-0.12.2/build
   - cd qpid-proton-0.12.2/build
   - cmake .. -DBUILD_JAVA=OFF -DBUILD_PHP=OFF -DBUILD_PYTHON=OFF -DBUILD_PERL=OFF -DBUILD_RUBY=OFF
-  - make && make install
+  - make
+  - sudo make install
 
 script:
   - mkdir build && cd build && cmake .. && make && ctest
