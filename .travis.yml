@@ -28,6 +28,7 @@ before_script:
   - cmake .. -DBUILD_JAVA=OFF -DBUILD_PHP=OFF -DBUILD_PYTHON=OFF -DBUILD_PERL=OFF -DBUILD_RUBY=OFF -DBUILD_GO=OFF
   - make
   - sudo make install
+  - cd ../..
 
 script:
   - mkdir build && cd build && cmake .. && make && ctest
