@@ -98,9 +98,9 @@ set QPID_SSL_CERT_NAME=abcfr_abcfralmmacc1
 
 ## Running the examples
 
-The projects consist of one executable files named `demo`, which is created in `<build directory>/qpid-messaging/src`. This executable can be run in two modes - as broadcast receiver or as request sender / response receiver. The `demo` program accepts following options:
+Example executable `demo_qpid-messaging` is created in `<build directory>/qpid-messaging/src`. This executable can be run in two modes - as broadcast receiver or as request sender / response receiver. The `demo_qpid-messaging` program accepts following options:
 ```
-./demo [options] <mode>
+./demo_qpid-messaging [options] <mode>
   Options:" << std::endl;
     -a <account>   Account (default=ABCFR_ABCFRALMMACC1)
     -h <hostname>  Hostname (default=ecaf-fixml-simu1.deutsche-boerse.com)
@@ -128,6 +128,51 @@ The code responsible for receiving broadcasts is in the files `BroadcastReceiver
 ### Request / Response
 
 The code responsible for sending requests / receiving responses is in the files `RequestResponse.h` and `RequestResponse.cpp`. This code handles both AMQP 0-10 and 1.0.
+
+# qpid-proton
+
+Examples in qpid-proton folder are using the (C++ binding) of Qpid Proton API. It supports both AMQP 1.0. To run the examples:
+
+- Install Qpid Proton C library along with C++ binding
+- Change the hostname / IP address, port number, paths to the certificates and queue names
+- Run examples
+
+## SSL
+
+To use SSL private key in PEM format and public key in crt format are needed.
+
+## Running the examples
+
+Example executable `demo_qpid-proton` is created in `<build directory>/qpid-proton/src`. This executable can be run in two modes - as broadcast receiver or as request sender / response receiver. The `demo_qpid-proton` program accepts following options:
+```
+./demo_qpid-proton [options] <mode>
+  Options:
+    -a <account>   Account (default=ABCFR_ABCFRALMMACC1)
+    -h <hostname>  Hostname (default=ecag-fixml-simu1.deutsche-boerse.com)
+    -p <port>      Port (default=10170)
+    -c <path>      Path to host certificate (default=ecag-fixml-simu1.crt)
+    -k <path>      Path to account private key (default=ABCFR_ABCFRALMMACC1.pem)
+    -w <password>  Account private key password (default=123456)
+  Modes:
+    broadcast_receiver - Receive broadcasts.
+    request_response   - Send request and receive response.
+```
+
+To run the executable:
+
+1. Prepare private key and public certificate
+2. Run `./demo -a ABCFR_ABCFRALMMACC1 -h ecag-fixml-dev1 -p 5671 -c ecag-fixml-simu1.crt -k ABCFR_ABCFRALMMACC1.pem request_response` to send request / receive response
+3. Run `./demo -a ABCFR_ABCFRALMMACC1 -h ecag-fixml-dev1 -p 5671 -c ecag-fixml-simu1.crt -k ABCFR_ABCFRALMMACC1.pem broadcast_receiver` to receive broadcasts
+
+## Source code
+
+### Broadcast Receiver
+
+The code responsible for receiving broadcasts is in the files `BroadcastReceiver.h` and `BroadcastReceiver.cpp`. This code handles only AMQP 1.0.
+
+### Request / Response
+
+The code responsible for sending requests / receiving responses is in the files `RequestResponse.h` and `RequestResponse.cpp`. This code handles only AMQP 1.0.
 
 # Documentation
 
