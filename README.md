@@ -115,8 +115,8 @@ Example executable `demo_qpid-messaging` is created in `<build directory>/qpid-m
 To run the executable:
 
 1. Configure SSL
-2. Run `./demo -a ABCFR_ABCFRALMMACC1 -h ecag-fixml-dev1 -p 5671 request_response` to send request / receive response
-3. Run `./demo -a ABCFR_ABCFRALMMACC1 -h ecag-fixml-dev1 -p 5671 broadcast_receiver` to receive broadcasts
+2. Run `./demo_qpid-messaging -a ABCFR_ABCFRALMMACC1 -h ecag-fixml-dev1 -p 5671 request_response` to send request / receive response
+3. Run `./demo_qpid-messaging -a ABCFR_ABCFRALMMACC1 -h ecag-fixml-dev1 -p 5671 broadcast_receiver` to receive broadcasts
 4. Use the option -1 to use AMQP 1.0
 
 ## Source code
@@ -161,8 +161,8 @@ Example executable `demo_qpid-proton` is created in `<build directory>/qpid-prot
 To run the executable:
 
 1. Prepare private key and public certificate
-2. Run `./demo -a ABCFR_ABCFRALMMACC1 -h ecag-fixml-dev1 -p 5671 -c ecag-fixml-simu1.crt -k ABCFR_ABCFRALMMACC1.pem request_response` to send request / receive response
-3. Run `./demo -a ABCFR_ABCFRALMMACC1 -h ecag-fixml-dev1 -p 5671 -c ecag-fixml-simu1.crt -k ABCFR_ABCFRALMMACC1.pem broadcast_receiver` to receive broadcasts
+2. Run `./demo_qpid-proton -a ABCFR_ABCFRALMMACC1 -h ecag-fixml-dev1 -p 5671 -c ecag-fixml-simu1.crt -k ABCFR_ABCFRALMMACC1.pem request_response` to send request / receive response
+3. Run `./demo_qpid-proton -a ABCFR_ABCFRALMMACC1 -h ecag-fixml-dev1 -p 5671 -c ecag-fixml-simu1.crt -k ABCFR_ABCFRALMMACC1.pem broadcast_receiver` to receive broadcasts
 
 ## Source code
 
