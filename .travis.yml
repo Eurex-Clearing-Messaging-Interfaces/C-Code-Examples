@@ -20,17 +20,13 @@ install:
 
 before_script:
   - source ./qpid-messaging/test/resources/prepare_environment.sh
-  - qpidProtonInstallDir="$(pwd)/build"
-  - mkdir -p $qpidProtonInstallDir
   - wget http://apache.openmirror.de/qpid/proton/0.12.2/qpid-proton-0.12.2.tar.gz
   - gunzip qpid-proton-0.12.2.tar.gz
   - tar -xvf qpid-proton-0.12.2.tar
   - mkdir -p qpid-proton-0.12.2/build
   - cd qpid-proton-0.12.2/build
-  - cmake -DCMAKE_INSTALL_PREFIX=$qpidProtonInstallDir .. -DBUILD_JAVA=OFF -DBUILD_PHP=OFF -DBUILD_PYTHON=OFF -DBUILD_PERL=OFF -DBUILD_RUBY=OFF
+  - cmake .. -DBUILD_JAVA=OFF -DBUILD_PHP=OFF -DBUILD_PYTHON=OFF -DBUILD_PERL=OFF -DBUILD_RUBY=OFF
   - make && make install
-  - export CMAKE_PREFIX_PATH="${qpidProtonInstallDir}/lib64/cmake"
-  - export CMAKE_LIBRARY_PATH="${qpidProtonInstallDir}/lib64"
 
 script:
   - mkdir build && cd build && cmake .. && make && ctest
