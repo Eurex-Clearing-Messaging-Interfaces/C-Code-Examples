@@ -3,13 +3,13 @@
 
 #include <string>
 
-#include <proton/handler.hpp>
+#include <proton/messaging_handler.hpp>
 #include <proton/receiver.hpp>
-#include <proton/event.hpp>
+#include <proton/sender.hpp>
 
 #include "Options.h"
 
-class BroadcastReceiver : public proton::handler
+class BroadcastReceiver : public proton::messaging_handler
 {
 
     private:
@@ -26,10 +26,10 @@ class BroadcastReceiver : public proton::handler
         explicit BroadcastReceiver(const Options &options);
 
         // On start callback
-        void on_start(proton::event &e);
+        void on_container_start(proton::container &c);
 
         // On message callback
-        void on_message(proton::event &e);
+        void on_message(proton::delivery &d, proton::message &m);
 
         // Run method
         void run();

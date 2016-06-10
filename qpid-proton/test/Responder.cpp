@@ -1,6 +1,7 @@
 #include <iostream>
 
-#include <proton/container.hpp>
+#include <proton/default_container.hpp>
+#include <proton/delivery.hpp>
 #include <proton/receiver.hpp>
 #include <proton/sender.hpp>
 #include <proton/event.hpp>
@@ -20,51 +21,47 @@ Responder::Responder(const ServerOptions &options,
 {
 }
 
-void Responder::on_start(proton::event &e)
+void Responder::on_container_start(proton::container &c)
 {
     proton::connection_options connectionOptions;
-    connectionOptions.allow_insecure_mechs(true);
-    connectionOptions.allowed_mechs("PLAIN");
-    e.container().client_connection_options(connectionOptions);
+    connectionOptions.sasl_allow_insecure_mechs(true);
+    connectionOptions.sasl_allowed_mechs("PLAIN");
+    c.client_connection_options(connectionOptions);
 
     std::string requestUrl = "amqp://" + _options.getAccount() + ":" + _options.getPassword() + "@" + _options.getHost() + ":" + std::to_string(_options.getPort()) + "/" + _requestQueue;
     std::string responseUrl = "amqp://" + _options.getAccount() + ":" + _options.getPassword() + "@" + _options.getHost() + ":" + std::to_string(_options.getPort()) + "/response";
 
-    _receiver = e.container().open_receiver(requestUrl);
+    _receiver = c.open_receiver(requestUrl);
     std::cout << "-I- Responder: Listening on " << requestUrl << std::endl;
 
-    _sender = _receiver.connection().open_sender("response", proton::link_options().dynamic_address(false));
+    //_sender = _receiver.connection().open_sender("response", proton::link_options().dynamic_address(false));
+    _sender = _receiver.connection().open_sender("response");
     std::cout << "-I- Responder: Responder created " << std::endl;
 }
 
-void Responder::on_message(proton::event &e)
+void Responder::on_message(proton::delivery &d, proton::message &m)
 {
-    proton::message& msg = e.message();
+    std::cout << "-I- Responder: message = " << m.body() << std::endl;
 
-    std::cout << "-I- Responder: message = " << msg.body() << std::endl;
-
-    if (e.link() == _receiver)
+    proton::message res;
+    res.body("Hello - response");
+    std::string subject = m.reply_to();
+    // Cut off leading exchange
+    std::size_t sPos = subject.find('/');
+    if (sPos != std::string::npos)
     {
-        proton::message res;
-        res.body("Hello - response");
-        std::string subject = msg.reply_to();
-        // Cut off leading exchange
-        std::size_t sPos = subject.find('/');
-        if (sPos != std::string::npos)
-        {
-            subject.erase(0,sPos+1);
-        }
-        res.subject(subject);
-        _sender.send(res);
-        std::cout << "-I- Responder: Response message sent" << std::endl;
+        subject.erase(0,sPos+1);
     }
+    res.subject(subject);
+    _sender.send(res);
+    std::cout << "-I- Responder: Response message sent" << std::endl;
 }
 
-void Responder::on_delivery_accept(proton::event &e)
+void Responder::on_tracker_accept(proton::tracker &t)
 {
     std::cout << "-I- Responder: Accepted" << std::endl;
 
-    e.connection().close();
+    t.connection().close();
     _sender.close();
     _receiver.close();
 }
@@ -73,7 +70,7 @@ void Responder::run()
 {
     try
     {
-        proton::container(*this).run();
+        proton::default_container(*this).run();
     }
     catch (const std::exception &error)
     {

@@ -20,7 +20,7 @@ install:
 
 before_script:
   - source ./qpid-messaging/test/resources/prepare_environment.sh
-  - wget http://apache.openmirror.de/qpid/proton/0.12.2/qpid-proton-0.12.2.tar.gz
+  - wget https://dist.apache.org/repos/dist/dev/qpid/proton/0.13.0-rc/qpid-proton-0.13.0.tar.gz
   - gunzip qpid-proton-0.12.2.tar.gz
   - tar -xvf qpid-proton-0.12.2.tar
   - mkdir -p qpid-proton-0.12.2/build
