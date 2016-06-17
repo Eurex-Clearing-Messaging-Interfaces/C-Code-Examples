@@ -3,13 +3,11 @@
 
 #include <string>
 
-#include <proton/handler.hpp>
-#include <proton/sender.hpp>
-#include <proton/event.hpp>
+#include <proton/messaging_handler.hpp>
 
 #include "ServerOptions.h"
 
-class Broadcaster : public proton::handler
+class Broadcaster : public proton::messaging_handler
 {
 
     private:
@@ -30,13 +28,13 @@ class Broadcaster : public proton::handler
                              const std::string &routingKey,
                              unsigned int count = 1);
 
-        void on_start(proton::event &e);
+        void on_container_start(proton::container &c);
 
-        void on_sendable(proton::event &e);
+        void on_sendable(proton::sender &s);
 
-        void on_delivery_accept(proton::event &e);
+        void on_tracker_accept(proton::tracker &t);
 
-        void on_transport_close(proton::event &e);
+        void on_transport_close(proton::transport &t);
 
         // Run method
         void run();

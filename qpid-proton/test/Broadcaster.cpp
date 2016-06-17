@@ -1,8 +1,8 @@
 #include <iostream>
 
+#include <proton/default_container.hpp>
 #include <proton/acceptor.hpp>
 #include <proton/connection.hpp>
-#include <proton/container.hpp>
 #include <proton/event.hpp>
 #include <proton/handler.hpp>
 #include <proton/value.hpp>
@@ -22,22 +22,21 @@ Broadcaster::Broadcaster(const ServerOptions &options,
 {
 }
 
-void Broadcaster::on_start(proton::event &e)
+void Broadcaster::on_container_start(proton::container &c)
 {
     proton::connection_options connectionOptions;
-    connectionOptions.allow_insecure_mechs(true);
-    connectionOptions.allowed_mechs("PLAIN");
-    e.container().client_connection_options(connectionOptions);
+    connectionOptions.sasl_allow_insecure_mechs(true);
+    connectionOptions.sasl_allowed_mechs("PLAIN");
+    c.client_connection_options(connectionOptions);
 
     std::string url = "amqp://" + _options.getAccount() + ":" + _options.getPassword() + "@" + _options.getHost() + ":" + std::to_string(_options.getPort()) + "/" + _exchange;
 
-    _sender = e.container().open_sender(url);
+    _sender = c.open_sender(url);
 }
 
-void Broadcaster::on_sendable(proton::event &e)
+void Broadcaster::on_sendable(proton::sender &s)
 {
-    proton::sender sender = e.sender();
-    while (sender.credit() && _sent < _count)
+    while (s.credit() && _sent < _count)
     {
         proton::message msg;
         std::map<std::string, int> m;
@@ -45,22 +44,22 @@ void Broadcaster::on_sendable(proton::event &e)
         msg.id(_sent + 1);
         msg.subject(_routingKey);
         msg.body(m);
-        sender.send(msg);
+        s.send(msg);
         _sent++;
     }
 }
 
-void Broadcaster::on_delivery_accept(proton::event &e)
+void Broadcaster::on_tracker_accept(proton::tracker &t)
 {
     _confirmed++;
     if (_confirmed == _count)
     {
         std::cout << "-I- All messages (" << _confirmed << ") confirmed" << std::endl;
-        e.connection().close();
+        t.connection().close();
     }
 }
 
-void Broadcaster::on_transport_close(proton::event &e)
+void Broadcaster::on_transport_close(proton::transport &t)
 {
     _sent = _confirmed;
 }
@@ -69,7 +68,7 @@ void Broadcaster::run()
 {
     try
     {
-        proton::container(*this).run();
+        proton::default_container(*this).run();
     }
     catch (const std::exception &error)
     {

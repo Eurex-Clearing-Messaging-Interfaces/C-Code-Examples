@@ -3,14 +3,13 @@
 
 #include <string>
 
-#include <proton/handler.hpp>
+#include <proton/messaging_handler.hpp>
 #include <proton/sender.hpp>
 #include <proton/receiver.hpp>
-#include <proton/event.hpp>
 
 #include "ServerOptions.h"
 
-class Responder : public proton::handler
+class Responder : public proton::messaging_handler
 {
 
     private:
@@ -27,13 +26,13 @@ class Responder : public proton::handler
                            const std::string &requestQueue);
 
         // On start callback
-        void on_start(proton::event &e);
+        void on_container_start(proton::container &c);
 
         // On message callback
-        void on_message(proton::event &e);
+        void on_message(proton::delivery &d, proton::message &m);
 
-        // On delivery accept
-        void on_delivery_accept(proton::event &e);
+        // On tracker accept
+        void on_tracker_accept(proton::tracker &t);
 
         // Run method
         void run();

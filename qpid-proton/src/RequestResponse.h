@@ -3,14 +3,13 @@
 
 #include <string>
 
-#include <proton/handler.hpp>
+#include <proton/messaging_handler.hpp>
 #include <proton/sender.hpp>
 #include <proton/receiver.hpp>
-#include <proton/event.hpp>
 
 #include "Options.h"
 
-class RequestResponse : public proton::handler
+class RequestResponse : public proton::messaging_handler
 {
 
     private:
@@ -26,13 +25,13 @@ class RequestResponse : public proton::handler
         explicit RequestResponse(const Options &options);
 
         // On start callback
-        void on_start(proton::event &e);
+        void on_container_start(proton::container &c);
 
-        // On link open callback
-        void on_link_open(proton::event &e);
+        // On sender open callback
+        void on_sender_open(proton::sender &s);
 
         // On message callback
-        void on_message(proton::event &e);
+        void on_message(proton::delivery &d, proton::message &m);
 
         // Run method
         void run();
