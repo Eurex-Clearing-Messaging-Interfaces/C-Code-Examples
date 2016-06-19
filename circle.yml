@@ -12,8 +12,7 @@ dependencies:
     - sudo apt-get install -q -y --only-upgrade cmake
     - sudo apt-get install -q -y libboost-test-dev libboost-filesystem-dev libnss3-tools libqpidmessaging2-dev libqpidclient2-dev libqpid-proton6-dev
     - wget http://mirror.dkd.de/apache/qpid/proton/0.13.0/qpid-proton-0.13.0.tar.gz
-    - gunzip qpid-proton-0.13.0.tar.gz
-    - tar -xvf qpid-proton-0.13.0.tar
+    - tar -xzvf qpid-proton-0.13.0.tar.gz
     - mkdir -p qpid-proton-0.13.0/build
     - cd qpid-proton-0.13.0/build && cmake .. -DBUILD_JAVA=OFF -DBUILD_PHP=OFF -DBUILD_PYTHON=OFF -DBUILD_PERL=OFF -DBUILD_RUBY=OFF -DBUILD_GO=OFF
     - cd qpid-proton-0.13.0/build && make
@@ -23,4 +22,4 @@ test:
   pre:
     - docker run -d -p 35672:5672 -p 35671:5671 ecmi/fixml:sim
   override:
-    - source ./qpid-messaging/test/resources/prepare_environment.sh && mkdir build && cd build && cmake .. && make && ctest
+    - source ./qpid-messaging/test/resources/prepare_environment.sh && mkdir build && cd build && cmake .. && make && ctest || cat Testing/Temporary/LastTest.log
