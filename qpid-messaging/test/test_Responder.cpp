@@ -38,8 +38,7 @@ BOOST_AUTO_TEST_CASE(test_RequestResponse)
 
     rr.run();
 
-    if (responder.joinable())
-        responder.join();
+    responder.join();
 
     BOOST_CHECK_EQUAL(1, rr.getNReceived());
 }
@@ -55,8 +54,7 @@ BOOST_AUTO_TEST_CASE(test_RequestResponse_AMQP_10)
 
     rr.run();
 
-    if (responder.joinable())
-        responder.join();
+    responder.join();
 
     BOOST_CHECK_EQUAL(1, rr.getNReceived());
 }
