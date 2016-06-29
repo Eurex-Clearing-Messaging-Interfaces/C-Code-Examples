@@ -175,6 +175,10 @@ The code responsible for receiving broadcasts is in the files `BroadcastReceiver
 
 The code responsible for sending requests / receiving responses is in the files `RequestResponse.h` and `RequestResponse.cpp`. This code handles only AMQP 1.0.
 
+# Integration tests
+
+The project is using Travis-CI and Circle CI to run its own integration tests. The tests are executed against Docker images which contain the AMQP broker with configuration corresponding to Eurex Clearing FIXML Interface. The details of the integration tests can be found in the .travis.yml and circle.yml files.
+
 # Documentation
 
 More details about C++ APIs and code examples can be found in the Volume B of Eurex Clearing Messaging Interfaces documentation on [Eurex Clearing website](http://www.eurexclearing.com/clearing-en/technology/eurex-release14/system-documentation/system-documentation/861464?frag=861450).
