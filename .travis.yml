@@ -20,11 +20,11 @@ install:
 
 before_script:
   - source ./qpid-messaging/test/resources/prepare_environment.sh
-  - wget http://mirror.dkd.de/apache/qpid/proton/0.13.0/qpid-proton-0.13.0.tar.gz
-  - gunzip qpid-proton-0.13.0.tar.gz
-  - tar -xvf qpid-proton-0.13.0.tar
-  - mkdir -p qpid-proton-0.13.0/build
-  - cd qpid-proton-0.13.0/build
+  - wget http://mirror.dkd.de/apache/qpid/proton/0.14.0/qpid-proton-0.14.0.tar.gz
+  - gunzip qpid-proton-0.14.0.tar.gz
+  - tar -xvf qpid-proton-0.14.0.tar
+  - mkdir -p qpid-proton-0.14.0/build
+  - cd qpid-proton-0.14.0/build
   - cmake .. -DBUILD_JAVA=OFF -DBUILD_PHP=OFF -DBUILD_PYTHON=OFF -DBUILD_PERL=OFF -DBUILD_RUBY=OFF -DBUILD_GO=OFF
   - make
   - sudo make install
