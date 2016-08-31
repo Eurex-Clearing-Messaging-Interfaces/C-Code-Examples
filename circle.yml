@@ -11,12 +11,12 @@ dependencies:
     - sudo apt-get update -q
     - sudo apt-get install -q -y --only-upgrade cmake
     - sudo apt-get install -q -y libboost-test-dev libboost-filesystem-dev libnss3-tools libqpidmessaging2-dev libqpidclient2-dev libqpid-proton6-dev
-    - wget http://mirror.dkd.de/apache/qpid/proton/0.14.0/qpid-proton-0.14.0.tar.gz
-    - tar -xzvf qpid-proton-0.14.0.tar.gz
-    - mkdir -p qpid-proton-0.14.0/build
-    - cd qpid-proton-0.14.0/build && cmake .. -DBUILD_JAVA=OFF -DBUILD_PHP=OFF -DBUILD_PYTHON=OFF -DBUILD_PERL=OFF -DBUILD_RUBY=OFF -DBUILD_GO=OFF
-    - cd qpid-proton-0.14.0/build && make
-    - cd qpid-proton-0.14.0/build && sudo make install
+    - wget http://mirror.dkd.de/apache/qpid/proton/0.13.1/qpid-proton-0.13.1.tar.gz
+    - tar -xzvf qpid-proton-0.13.1.tar.gz
+    - mkdir -p qpid-proton-0.13.1/build
+    - cd qpid-proton-0.13.1/build && cmake .. -DBUILD_JAVA=OFF -DBUILD_PHP=OFF -DBUILD_PYTHON=OFF -DBUILD_PERL=OFF -DBUILD_RUBY=OFF -DBUILD_GO=OFF
+    - cd qpid-proton-0.13.1/build && make
+    - cd qpid-proton-0.13.1/build && sudo make install
 
 test:
   pre:
