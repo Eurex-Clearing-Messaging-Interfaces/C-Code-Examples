@@ -22,7 +22,7 @@ RequestResponse::RequestResponse(const Options &options, bool useAmqp10)
     _replyAddress = "response/response." + _options.getAccount() + std::string(_useAmqp10 ? ";" : ".response_queue_1;") + " { node: { type: topic }, assert: never, create: never }";
     _requestAddress = "request." + _options.getAccount() + "; { node: { type: topic }, assert: never, create: never }";
     if (_useAmqp10)
-        _responseAddress = "response." + _options.getAccount() + "; {create: never, assert: never, node: { type: queue } }";
+        _responseAddress = "response." + _options.getAccount();
     else
         _responseAddress = "response." + _options.getAccount() + ".response_queue_1; {create: receiver, assert: never, node: { type: queue, x-declare: { auto-delete: true, exclusive: true, arguments: {'qpid.policy_type': ring, 'qpid.max_count': 1000, 'qpid.max_size': 1000000}}, x-bindings: [{exchange: 'response', queue: 'response." + _options.getAccount() + ".response_queue_1', key: 'response." + _options.getAccount() + ".response_queue_1'}]}}";
 }

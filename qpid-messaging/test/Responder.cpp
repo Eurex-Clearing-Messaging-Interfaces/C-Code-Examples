@@ -33,10 +33,15 @@ void Responder::run()
     Connection connection(url, _useAmqp10 ? "{ protocol: amqp1.0 }" : "");
     connection.setOption("username", _options.getAccount());
     connection.setOption("password", _options.getPassword());
+
+    std::string address(_requestQueue);
+
     if (_useAmqp10)
         connection.setOption("heartbeat", "30");
+    else
+        address += "; { node: { type: queue }, assert: never, mode: consume }";
 
-    Address request(_requestQueue + "; { node: { type: queue }, assert: never, mode: consume }");
+    Address request(address);
     Duration timeout = Duration::SECOND * _options.getTimeout();
 
     try

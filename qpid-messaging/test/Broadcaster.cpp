@@ -37,10 +37,15 @@ void Broadcaster::run()
     Connection connection(url, _useAmqp10 ? "{ protocol: amqp1.0 }" : "");
     connection.setOption("username", _options.getAccount());
     connection.setOption("password", _options.getPassword());
+
+    std::string address(_exchange + "/" + _routingKey);
+
     if (_useAmqp10)
         connection.setOption("heartbeat", "30");
+    else
+        address += "; { node: { type: topic }, assert: never }";
 
-    Address broadcast(_exchange + "/" + _routingKey + "; { node: { type: topic }, assert: never }");
+    Address broadcast(address);
     Duration timeout = Duration::SECOND * _options.getTimeout();
 
     try
