@@ -12,7 +12,6 @@ const static ServerOptions serverOptions("admin","admin","ecag-fixml-dev1",35672
 const static Options clientOptions("ABCFR_ABCFRALMMACC1","ecag-fixml-dev1",35671,10);
 const static std::string broadcastExchange("broadcast");
 const static std::string broadcastRoutingKey("broadcast.ABCFR.TradeConfirmation");
-const static std::string requestQueue("request_be.ABCFR_ABCFRALMMACC1");
 
 
 BOOST_AUTO_TEST_CASE(test_BroadcastReceiver)
