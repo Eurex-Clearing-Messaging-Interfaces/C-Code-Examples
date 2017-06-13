@@ -25,7 +25,7 @@ before_script:
   - tar -xvf qpid-proton-0.17.0.tar
   - mkdir -p qpid-proton-0.17.0/build
   - cd qpid-proton-0.17.0/build
-  - cmake .. -DBUILD_JAVA=OFF -DBUILD_PHP=OFF -DBUILD_PYTHON=OFF -DBUILD_PERL=OFF -DBUILD_RUBY=OFF -DBUILD_GO=OFF
+  - cmake .. -DBUILD_JAVA=OFF -DBUILD_PHP=OFF -DBUILD_PYTHON=OFF -DBUILD_PERL=OFF -DBUILD_RUBY=OFF -DBUILD_GO=OFF -DCMAKE_CXX_FLAGS="-std=c++11"
   - make
   - sudo make install
   - cd ../..
