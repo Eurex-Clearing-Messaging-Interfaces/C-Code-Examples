@@ -10,8 +10,10 @@ addons:
     - ecag-fixml-dev1
 
 before_install:
+  - sudo add-apt-repository ppa:george-edison55/cmake-3.x --yes
   - sudo add-apt-repository ppa:qpid/testing  --yes
   - sudo apt-get update -q
+  - sudo apt-get install -q -y --only-upgrade cmake
   - sudo apt-get install -q -y libboost-test-dev libboost-filesystem-dev libnss3-tools libqpidmessaging2-dev libqpidclient2-dev libqpid-proton6-dev
   - docker pull ecmi/fixml:sim
 
@@ -19,7 +21,6 @@ install:
   - docker run -d -p 35672:5672 -p 35671:5671 ecmi/fixml:sim
 
 before_script:
-  - source ./qpid-messaging/test/resources/prepare_environment.sh
   - wget http://mirror.dkd.de/apache/qpid/proton/0.17.0/qpid-proton-0.17.0.tar.gz
   - gunzip qpid-proton-0.17.0.tar.gz
   - tar -xvf qpid-proton-0.17.0.tar
@@ -31,7 +32,7 @@ before_script:
   - cd ../..
 
 script:
-  - mkdir build && cd build && cmake .. && make && ctest
+  - source ./qpid-messaging/test/resources/prepare_environment.sh && mkdir build && cd build && cmake .. && make && ctest
 
 after_failure:
   - cat Testing/Temporary/LastTest.log
