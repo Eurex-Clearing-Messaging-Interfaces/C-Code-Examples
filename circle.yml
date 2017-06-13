@@ -14,7 +14,7 @@ dependencies:
     - wget http://mirror.dkd.de/apache/qpid/proton/0.17.0/qpid-proton-0.17.0.tar.gz
     - tar -xzvf qpid-proton-0.17.0.tar.gz
     - mkdir -p qpid-proton-0.17.0/build
-    - cd qpid-proton-0.17.0/build && cmake .. -DBUILD_JAVA=OFF -DBUILD_PHP=OFF -DBUILD_PYTHON=OFF -DBUILD_PERL=OFF -DBUILD_RUBY=OFF -DBUILD_GO=OFF
+    - cd qpid-proton-0.17.0/build && cmake .. -DBUILD_JAVA=OFF -DBUILD_PHP=OFF -DBUILD_PYTHON=OFF -DBUILD_PERL=OFF -DBUILD_RUBY=OFF -DBUILD_GO=OFF -DCMAKE_CXX_FLAGS="-std=c++11"
     - cd qpid-proton-0.17.0/build && make
     - cd qpid-proton-0.17.0/build && sudo make install
 
