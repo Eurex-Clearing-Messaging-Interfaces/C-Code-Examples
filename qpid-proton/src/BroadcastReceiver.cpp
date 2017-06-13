@@ -1,8 +1,12 @@
 #include <iostream>
 
+#include <proton/connection_options.hpp>
+#include <proton/container.hpp>
 #include <proton/default_container.hpp>
 #include <proton/delivery.hpp>
+#include <proton/message.hpp>
 #include <proton/ssl.hpp>
+#include <proton/thread_safe.hpp>
 
 #include "BroadcastReceiver.h"
 

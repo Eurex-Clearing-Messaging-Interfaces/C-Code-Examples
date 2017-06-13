@@ -1,10 +1,13 @@
+#include <string>
 #include <iostream>
 
+#include <proton/connection_options.hpp>
+#include <proton/container.hpp>
 #include <proton/default_container.hpp>
-#include <proton/acceptor.hpp>
-#include <proton/connection.hpp>
-#include <proton/event.hpp>
-#include <proton/handler.hpp>
+#include <proton/message.hpp>
+#include <proton/message_id.hpp>
+#include <proton/thread_safe.hpp>
+#include <proton/tracker.hpp>
 #include <proton/value.hpp>
 
 #include "Broadcaster.h"
@@ -39,11 +42,9 @@ void Broadcaster::on_sendable(proton::sender &s)
     while (s.credit() && _sent < _count)
     {
         proton::message msg;
-        std::map<std::string, int> m;
-        m["sequence"] = _sent + 1;
         msg.id(_sent + 1);
         msg.subject(_routingKey);
-        msg.body(m);
+        msg.body(std::to_string(_sent + 1));
         s.send(msg);
         _sent++;
     }

@@ -1,15 +1,20 @@
 #include <iostream>
 
+#include <proton/connection_options.hpp>
+#include <proton/container.hpp>
 #include <proton/default_container.hpp>
 #include <proton/delivery.hpp>
+#include <proton/message.hpp>
 #include <proton/receiver.hpp>
 #include <proton/sender.hpp>
-#include <proton/event.hpp>
-#include <proton/handler.hpp>
+//#include <proton/event.hpp>
+//#include <proton/handler.hpp>
 #include <proton/link.hpp>
 #include <proton/url.hpp>
 #include <proton/ssl.hpp>
 #include <proton/sasl.hpp>
+#include <proton/thread_safe.hpp>
+#include <proton/tracker.hpp>
 #include <proton/transport.hpp>
 
 #include "Responder.h"
