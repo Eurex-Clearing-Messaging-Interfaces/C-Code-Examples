@@ -37,6 +37,7 @@ void Broadcaster::run()
     Connection connection(url, _useAmqp10 ? "{ protocol: amqp1.0 }" : "");
     connection.setOption("username", _options.getAccount());
     connection.setOption("password", _options.getPassword());
+    connection.setOption("sasl_mechanisms", "DIGEST-MD5 CRAM-MD5 PLAIN");
 
     std::string address(_exchange + "/" + _routingKey);
 
