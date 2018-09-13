@@ -20,6 +20,6 @@ dependencies:
 
 test:
   pre:
-    - docker run -d -p 35672:5672 -p 35671:5671 ecmi/fixml:sim
+    - docker run -d -p 35672:5672 -p 35671:5671 ecdb/fixml:sim
   override:
     - source ./qpid-messaging/test/resources/prepare_environment.sh && mkdir build && cd build && cmake .. && make && ctest || cat Testing/Temporary/LastTest.log
