@@ -11,7 +11,6 @@ class RequestResponse
     private:
 
         Options _options;
-        const bool _useAmqp10;
         const unsigned int _capacity;
         unsigned int _messageCounter;
         std::string _replyAddress;
@@ -21,7 +20,7 @@ class RequestResponse
     public:
 
         // Constructor
-        explicit RequestResponse(const Options &options, bool useAmqp10);
+        explicit RequestResponse(const Options &options);
 
         // Run method
         void run();

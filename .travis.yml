@@ -1,5 +1,6 @@
 language: cpp
 
+dist: trusty
 sudo: required
 
 services:
@@ -10,23 +11,23 @@ addons:
     - ecag-fixml-dev1
 
 before_install:
-  - sudo add-apt-repository ppa:george-edison55/cmake-3.x --yes
+  - sudo apt-get install -y software-properties-common
   - sudo add-apt-repository ppa:qpid/testing  --yes
   - sudo apt-get update -q
-  - sudo apt-get install -q -y --only-upgrade cmake
-  - sudo apt-get install -q -y libboost-test-dev libboost-filesystem-dev libnss3-tools libqpidmessaging2-dev libqpidclient2-dev libqpid-proton6-dev
+  - sudo apt-get install -q -y cmake3
+  - sudo apt-get install -q -y libboost-test-dev libboost-filesystem-dev libnss3-tools libqpidmessaging-dev libqpidclient-dev libqpidcommon-dev libqpidtypes-dev
   - docker pull ecdb/fixml:sim
 
 install:
-  - docker run -d -p 35672:5672 -p 35671:5671 ecmi/fixml:sim
+  - docker run -d -p 35672:5672 -p 35671:5671 ecdb/fixml:sim
 
 before_script:
-  - wget http://mirror.dkd.de/apache/qpid/proton/0.17.0/qpid-proton-0.17.0.tar.gz
-  - gunzip qpid-proton-0.17.0.tar.gz
-  - tar -xvf qpid-proton-0.17.0.tar
-  - mkdir -p qpid-proton-0.17.0/build
-  - cd qpid-proton-0.17.0/build
-  - cmake .. -DBUILD_JAVA=OFF -DBUILD_PHP=OFF -DBUILD_PYTHON=OFF -DBUILD_PERL=OFF -DBUILD_RUBY=OFF -DBUILD_GO=OFF -DCMAKE_CXX_FLAGS="-std=c++11"
+  - wget http://mirror.dkd.de/apache/qpid/proton/0.25.0/qpid-proton-0.25.0.tar.gz
+  - gunzip qpid-proton-0.25.0.tar.gz
+  - tar -xvf qpid-proton-0.25.0.tar
+  - mkdir -p qpid-proton-0.25.0/build
+  - cd qpid-proton-0.25.0/build
+  - cmake .. -DBUILD_GO=OFF -DCMAKE_CXX_FLAGS="-std=c++11" -DSYSINSTALL_BINDINGS=OFF
   - make
   - sudo make install
   - cd ../..

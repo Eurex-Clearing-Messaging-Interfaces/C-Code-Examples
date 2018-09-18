@@ -11,7 +11,6 @@ class BroadcastReceiver
     private:
 
         Options _options;
-        const bool _useAmqp10;
         const unsigned int _blockSize;
         const unsigned int _capacity;
         unsigned int _messageCounter;
@@ -20,7 +19,7 @@ class BroadcastReceiver
     public:
 
         // Constructor
-        explicit BroadcastReceiver(const Options &options, bool useAmqp10);
+        explicit BroadcastReceiver(const Options &options);
 
         // Run method
         void run();

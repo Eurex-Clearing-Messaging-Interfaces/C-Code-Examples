@@ -27,28 +27,12 @@ static void responderThread(Responder *pResponder)
     }
 }
 
-BOOST_AUTO_TEST_CASE(test_RequestResponse)
+BOOST_AUTO_TEST_CASE(test_RequestResponse_AMQP)
 {
-    BOOST_TEST_MESSAGE("test_RequestResponse");
+    BOOST_TEST_MESSAGE("test_RequestResponse_AMQP");
 
-    Responder r(serverOptions,false,requestQueue);
-    RequestResponse rr(clientOptions,false);
-
-    std::thread responder(responderThread,&r);
-
-    rr.run();
-
-    responder.join();
-
-    BOOST_CHECK_EQUAL(1, rr.getNReceived());
-}
-
-BOOST_AUTO_TEST_CASE(test_RequestResponse_AMQP_10)
-{
-    BOOST_TEST_MESSAGE("test_RequestResponse_AMQP_10");
-
-    Responder r(serverOptions,true,requestQueue);
-    RequestResponse rr(clientOptions,true);
+    Responder r(serverOptions,requestQueue);
+    RequestResponse rr(clientOptions);
 
     std::thread responder(responderThread,&r);
 

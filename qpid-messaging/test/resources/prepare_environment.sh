@@ -8,7 +8,7 @@ account="ABCFR_ABCFRALMMACC1"
 nodeCert="${myPath}/${hostName}.crt"
 accountPem="${myPath}/${account}.pem"
 accountP12="${myPath}/${account}.p12"
-nssPassword="12345678"
+nssPassword="123456"
 laccount=$(echo $account | tr '[:upper:]' '[:lower:]')
 
 rm -rf ${dbPath}/cert9.db ${dbPath}/key4.db ${dbPath}/pkcs11.txt

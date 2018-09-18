@@ -12,14 +12,13 @@
 
 using namespace qpid::messaging;
 
-BroadcastReceiver::BroadcastReceiver(const Options &options, bool useAmqp10)
+BroadcastReceiver::BroadcastReceiver(const Options &options)
     : _options(options)
-    , _useAmqp10(useAmqp10)
     , _blockSize(10)
     , _capacity(1000)
     , _messageCounter(0)
 {
-    _address = "broadcast." + _options.getAccount() + ".TradeConfirmation; { node: { type: queue } , create: never , mode: consume , assert: never }";
+    _address = "broadcast." + _options.getAccount() + ".TradeConfirmation";
 }
 
 
@@ -30,10 +29,9 @@ void BroadcastReceiver::run()
 
     std::string url = "amqp:ssl:" + _options.getHost() + ":" + std::to_string(_options.getPort());
 
-    Connection connection(url, _useAmqp10 ? "{ protocol: amqp1.0 }" : "");
+    Connection connection(url, "{ protocol: amqp1.0 }");
     connection.setOption("sasl_mechanisms", "EXTERNAL");
-    if (_useAmqp10)
-        connection.setOption("heartbeat", "30");
+    connection.setOption("heartbeat", "30");
 
     Address broadcast(_address);
     Duration timeout = Duration::SECOND * _options.getTimeout();

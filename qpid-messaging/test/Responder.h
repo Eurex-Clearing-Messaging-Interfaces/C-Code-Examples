@@ -11,7 +11,6 @@ class Responder
     private:
 
         ServerOptions _options;
-        const bool _useAmqp10;
         const unsigned int _capacity;
         const std::string _requestQueue;
 
@@ -19,7 +18,6 @@ class Responder
 
         // Constructor
         explicit Responder(const ServerOptions &options,
-                           bool useAmqp10,
                            const std::string &requestQueue);
 
         // Run method

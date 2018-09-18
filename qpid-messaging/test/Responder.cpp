@@ -14,10 +14,8 @@
 using namespace qpid::messaging;
 
 Responder::Responder(const ServerOptions &options,
-                     bool useAmqp10,
                      const std::string &requestQueue)
     : _options(options)
-    , _useAmqp10(useAmqp10)
     , _capacity(1000)
     , _requestQueue(requestQueue)
 {
@@ -30,16 +28,13 @@ void Responder::run()
 
     std::string url = "amqp:" + _options.getHost() + ":" + std::to_string(_options.getPort());
 
-    Connection connection(url, _useAmqp10 ? "{ protocol: amqp1.0 }" : "");
+    Connection connection(url, "{ protocol: amqp1.0 }");
     connection.setOption("username", _options.getAccount());
     connection.setOption("password", _options.getPassword());
+    connection.setOption("sasl_mechanisms", "PLAIN");
+    connection.setOption("heartbeat", "30");
 
     std::string address(_requestQueue);
-
-    if (_useAmqp10)
-        connection.setOption("heartbeat", "30");
-    else
-        address += "; { node: { type: queue }, assert: never, mode: consume }";
 
     Address request(address);
     Duration timeout = Duration::SECOND * _options.getTimeout();

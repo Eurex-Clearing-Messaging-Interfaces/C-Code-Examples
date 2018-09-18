@@ -14,12 +14,10 @@
 using namespace qpid::messaging;
 
 Broadcaster::Broadcaster(const ServerOptions &options,
-                         bool useAmqp10,
                          const std::string &exchange,
                          const std::string &routingKey,
                          unsigned int count)
     : _options(options)
-    , _useAmqp10(useAmqp10)
     , _capacity(1000)
     , _count(count)
     , _exchange(exchange)
@@ -34,17 +32,13 @@ void Broadcaster::run()
 
     std::string url = "amqp:" + _options.getHost() + ":" + std::to_string(_options.getPort());
 
-    Connection connection(url, _useAmqp10 ? "{ protocol: amqp1.0 }" : "");
+    Connection connection(url, "{ protocol: amqp1.0 }");
     connection.setOption("username", _options.getAccount());
     connection.setOption("password", _options.getPassword());
-    connection.setOption("sasl_mechanisms", "DIGEST-MD5 CRAM-MD5 PLAIN");
+    connection.setOption("sasl_mechanisms", "PLAIN");
+    connection.setOption("heartbeat", "30");
 
     std::string address(_exchange + "/" + _routingKey);
-
-    if (_useAmqp10)
-        connection.setOption("heartbeat", "30");
-    else
-        address += "; { node: { type: topic }, assert: never }";
 
     Address broadcast(address);
     Duration timeout = Duration::SECOND * _options.getTimeout();

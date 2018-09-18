@@ -20,7 +20,6 @@ int main(int argc, char *argv[])
     std::string host(DEFAULT_HOST);
     unsigned int port(DEFAULT_PORT);
     unsigned int timeout(DEFAULT_TIMEOUT);
-    bool amqp10 = false;
 
     try
     {
@@ -43,9 +42,6 @@ int main(int argc, char *argv[])
                 case 't':
                     timeout = (unsigned int)atoi(optarg);
                     break;
-                case '1':
-                    amqp10 = true;
-                    break;
                 case ':':
                     throw std::runtime_error("-E- Option -" + std::string(1,char(optopt)) + " requires an argument.");
                 case '?':
@@ -65,11 +61,11 @@ int main(int argc, char *argv[])
 
             if (mode == BROADCAST_RECEIVER)
             {
-                BroadcastReceiver(Options(account,host,port,timeout),amqp10).run();
+                BroadcastReceiver(Options(account,host,port,timeout)).run();
             }
             else if (mode == REQUEST_RESPONSE)
             {
-                RequestResponse(Options(account,host,port,timeout),amqp10).run();
+                RequestResponse(Options(account,host,port,timeout)).run();
             }
             else
             {

@@ -13,21 +13,14 @@
 
 using namespace qpid::messaging;
 
-RequestResponse::RequestResponse(const Options &options, bool useAmqp10)
+RequestResponse::RequestResponse(const Options &options)
     : _options(options)
-    , _useAmqp10(useAmqp10)
     , _capacity(1000)
     , _messageCounter(0)
 {
     _replyAddress = "response/response." + _options.getAccount();
     _requestAddress = "request." + _options.getAccount();
     _responseAddress = "response." + _options.getAccount();
-    if (!_useAmqp10)
-    {
-        _replyAddress += ".response_queue_1; { node: { type: topic }, assert: never, create: never }";
-        _requestAddress += "; { node: { type: topic }, assert: never, create: never }";
-        _responseAddress += ".response_queue_1; {create: receiver, assert: never, node: { type: queue, x-declare: { auto-delete: true, exclusive: true, arguments: {'qpid.policy_type': ring, 'qpid.max_count': 1000, 'qpid.max_size': 1000000}}, x-bindings: [{exchange: 'response', queue: 'response." + _options.getAccount() + ".response_queue_1', key: 'response." + _options.getAccount() + ".response_queue_1'}]}}";
-    }
 }
 
 
@@ -38,10 +31,9 @@ void RequestResponse::run()
 
     std::string url = "amqp:ssl:" + _options.getHost() + ":" + std::to_string(_options.getPort());
 
-    Connection connection(url, _useAmqp10 ? "{ protocol: amqp1.0 }" : "");
+    Connection connection(url, "{ protocol: amqp1.0 }");
     connection.setOption("sasl_mechanisms", "EXTERNAL");
-    if (_useAmqp10)
-        connection.setOption("heartbeat", "30");
+    connection.setOption("heartbeat", "30");
 
     Address reply(_replyAddress);
     Address request(_requestAddress);
