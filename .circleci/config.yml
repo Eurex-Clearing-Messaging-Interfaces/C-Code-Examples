@@ -2,21 +2,34 @@ version: 2
 jobs:
   build:
     machine:
-      - image: buildpack-deps:trusty
-      - name: ecag-fixml-dev1
-#    docker:
-#      - image: ecdb/fixml:sim
+      image: circleci/classic:latest
     steps:
       - checkout
-      - run: sudo apt-get install -y software-properties-common
-      - run: sudo add-apt-repository ppa:george-edison55/cmake-3.x --yes
-      - run: sudo add-apt-repository ppa:qpid/testing  --yes
-      - run: sudo apt-get update -q
-      - run: sudo apt-get install -q -y --only-upgrade cmake
-      - run: sudo apt-get install -q -y libboost-test-dev libboost-filesystem-dev libnss3-tools libqpidmessaging-dev libqpidclient-dev libqpidcommon-dev libqpidtypes-dev
-      - run: wget http://mirror.dkd.de/apache/qpid/proton/0.25.0/qpid-proton-0.25.0.tar.gz
-      - run: tar -xzvf qpid-proton-0.25.0.tar.gz
-      - run: mkdir -p qpid-proton-0.25.0/build
-      - run: cd qpid-proton-0.25.0/build && cmake .. -DBUILD_GO=OFF -DCMAKE_CXX_FLAGS="-std=c++11" -DSYSINSTALL_BINDINGS=OFF
-      - run: cd qpid-proton-0.25.0/build && make
-      - run: cd qpid-proton-0.25.0/build && sudo make install
+      - run:
+          name: Docker host
+          command: echo 127.0.0.1 ecag-fixml-dev1 | sudo tee -a /etc/hosts
+      - run:
+          name: Update & Install
+          command: |
+            sudo apt-get install -y software-properties-common
+            sudo add-apt-repository ppa:qpid/testing  --yes
+            sudo apt-get update -q
+            sudo apt-get install -q -y cmake3 libboost-test-dev libboost-filesystem-dev libnss3-tools libqpidmessaging-dev libqpidclient-dev libqpidcommon-dev libqpidtypes-dev
+      - run:
+          name: Install qpid-proton 0.25.0
+          command: |
+            wget http://mirror.dkd.de/apache/qpid/proton/0.25.0/qpid-proton-0.25.0.tar.gz
+            tar -xzvf qpid-proton-0.25.0.tar.gz
+            mkdir -p qpid-proton-0.25.0/build
+            cd qpid-proton-0.25.0/build
+            cmake .. -DBUILD_GO=OFF -DCMAKE_CXX_FLAGS="-std=c++11" -DSYSINSTALL_BINDINGS=OFF
+            make
+            sudo make install
+      - run:
+          name: Start FIXML docker image
+          command: |
+            docker run -d -p 35672:5672 -p 35671:5671 ecdb/fixml:sim
+      - run:
+          name: Perform tests
+          command: |
+            source ./qpid-messaging/test/resources/prepare_environment.sh && mkdir build && cd build && cmake .. && make && ctest
