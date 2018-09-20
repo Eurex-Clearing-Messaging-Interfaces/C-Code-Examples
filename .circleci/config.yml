@@ -28,7 +28,7 @@ jobs:
       - run:
           name: Start FIXML docker image
           command: |
-            docker run -d -p 35672:5672 -p 35671:5671 ecdb/fixml:sim
+            docker run -d -p 35672:5672 -p 35671:5671 ecmi/fixml:sim
       - run:
           name: Perform tests
           command: |
